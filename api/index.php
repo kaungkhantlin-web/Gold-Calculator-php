@@ -17,7 +17,6 @@
 
 <body>
     <?php
-    phpinfo();
 
     $weightInGram = null;
     $salePrice = null;
@@ -30,6 +29,7 @@
 
     
     if (empty($_POST["weightInGram"]) && empty($_POST["salePrice"]) && empty($_POST["currentPrice"])) {
+        $weightInGram = $salePrice = $currentPrice = "";
         $value_required = true;
     }
     //  found error when checking for the validation 
