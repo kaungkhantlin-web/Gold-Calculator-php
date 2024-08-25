@@ -26,22 +26,10 @@
     }
 
     body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background: linear-gradient(to top, rgb(0, 0, 0), rgba(255, 217, 0, 0.312));
+        background: linear-gradient(to bottom, var(--bgcolor), black);
+        height: auto;
     }
 
-    /* form */
-form{
-    display: flex;
-    flex-direction: column;
-    background-color: var(--bgcolor);
-    border-radius: 10px;
-    box-shadow: 0px 0px 5px var(--goldcolor);
-    margin: 0px 10px;
-}
 
     /* calculator contianer start */
     .main-container {
@@ -53,7 +41,18 @@ form{
         border: 1px solid gray;
         transition: all 0.4s ease-in-out;
         border-radius: 10px;
-        background: linear-gradient(200deg, var(--bgcolor), var(--goldcolor));
+        background: linear-gradient(150deg, var(--bgcolor), gray);
+        margin: auto;
+    }
+
+    /* form */
+    form {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--bgcolor);
+        border-radius: 10px;
+        box-shadow: 0px 0px 3px var(--goldcolor);
+        margin: 2px 7px;
     }
 
     .title {
@@ -68,8 +67,8 @@ form{
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 13px;
-        padding: 20px 10px;
+        gap: 10px;
+        padding: 15px 10px;
     }
 
     .calculate-container label {
@@ -91,7 +90,6 @@ form{
 
     .calculate-container button {
         width: 100%;
-        margin-top: 25px;
         padding: 13px;
         border-radius: 5px;
         font-size: 15px;
@@ -102,6 +100,7 @@ form{
         transition: all 0.4s ease-in-out;
         background-color: beige;
         color: black;
+        margin-top: 15px;
     }
 
     input:focus {
@@ -109,8 +108,7 @@ form{
     }
 
     input:hover {
-        transform: scale(1.1);
-        box-sizing: 2px 2px 3px 0 black;
+        border: 3px solid black;
     }
 
     button:focus {
@@ -119,9 +117,9 @@ form{
 
     button:hover {
         transform: scale(1.1);
-        background-color: var(--goldcolor);
+        background-color: black;
         font-size: 19px;
-        color: black;
+        color: var(--goldcolor);
     }
 
     .line {
@@ -136,9 +134,9 @@ form{
     .reult-container {
         display: flex;
         flex-direction: column;
-        gap: 7px;
+        gap: 5px;
         font-size: large;
-        margin-top: 15px;
+        margin-top: 10px;
         color: var(--goldcolor);
     }
 
@@ -168,8 +166,7 @@ form{
     $weightInPae = null;
     $actualGoldPrice = null;
     $serviceCharges = null;
-    $error_message = "This filed is required!";
-
+    $error_message = false;
 
     if (isset($_POST["submit"])) {
 
@@ -178,45 +175,47 @@ form{
             $salePrice = $_POST["salePrice"];
             $currentPrice = $_POST["currentPrice"];
 
-
             if (!empty($weightInGram) && !empty($salePrice) && !empty($currentPrice)) {
                 $weightInPae = $weightInGram  / 1.0205;
                 $pae_to_kyat = $weightInGram / 16;
                 $actualGoldPrice = $pae_to_kyat * $currentPrice;
                 $serviceCharges = $salePrice - $actualGoldPrice;
             }
+            else 
+                 $error_message = true;
+            
         }
     }
-
-
     ?>
-
     <!-- calculate contianer start -->
     <div class="main-container">
         <div class="title">
             <h2>Gold Calculator</h2>
             <i class="fa-solid fa-coins"></i>
         </div>
-        <form action="index.php" method="post">
+        <form action="index.php" method="post" enctype="multipart/form-data">
+        <span class="text-danger"> <?php echo $error_message ? "All fields are required!" : " "; ?> </span>
             <div class="calculate-container">
 
                 <label for="weightInGram">Gold weight (in gram):
                     <span class="text-danger">*</span>
                 </label>
+                <!-- <span class="text-danger"> <?php echo  ($error_message) ? "This field is required!" : ""; ?> </span> -->
                 <input type="number" name="weightInGram" value="<?php echo $weightInGram;  ?>" placeholder="write your gold weight..">
-                <span class="text-danger"> <?php echo ($weightInGram) ? " " : "$error_message"; ?> </span>
 
                 <label for="salePrice">Sale Price:
                     <span class="text-danger">*</span>
                 </label>
+               
                 <input type="number" name="salePrice" value="<?php echo $salePrice;  ?>" placeholder="write the sale price..">
-                <span class="text-danger"> <?php echo ($salePrice) ? " " : "$error_message"; ?> </span>
+               
 
                 <label for="currentPrice">Current Gold price:
                     <span class="text-danger">*</span>
                 </label>
+                <!-- <span class="text-danger"> <?php echo ($error_message) ? "This field is required!" : ""; ?> </span> -->
                 <input type="number" name="currentPrice" value="<?php echo $currentPrice; ?>" placeholder="write current gold price..">
-                <span class="text-danger"> <?php echo ($currentPrice) ? " " : "$error_message"; ?> </span>
+               
 
                 <button type="submit" name="submit">Calculate</button>
             </div>
