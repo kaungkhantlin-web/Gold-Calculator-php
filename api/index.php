@@ -27,7 +27,7 @@
 
     body {
         background: linear-gradient(to bottom, var(--bgcolor), black);
-        height: auto;
+        height: 100vh;
     }
 
 
