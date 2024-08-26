@@ -177,8 +177,7 @@
 
             if (!empty($weightInGram) && !empty($salePrice) && !empty($currentPrice)) {
                 $weightInPae = $weightInGram  / 1.0205;
-                $pae_to_kyat = $weightInGram / 16;
-                $actualGoldPrice = $pae_to_kyat * $currentPrice;
+                $actualGoldPrice = $weightInPae * ($currentPrice / 16);
                 $serviceCharges = $salePrice - $actualGoldPrice;
             }
             else 
@@ -201,20 +200,20 @@
                     <span class="text-danger">*</span>
                 </label>
                 <!-- <span class="text-danger"> <?php echo  ($error_message) ? "This field is required!" : ""; ?> </span> -->
-                <input type="number" name="weightInGram" value="<?php echo $weightInGram;  ?>" placeholder="write your gold weight..">
+                <input type="text" name="weightInGram" value="<?php echo $weightInGram;  ?>" placeholder="write your gold weight..">
 
                 <label for="salePrice">Sale Price:
                     <span class="text-danger">*</span>
                 </label>
                
-                <input type="number" name="salePrice" value="<?php echo $salePrice;  ?>" placeholder="write the sale price..">
+                <input type="text" name="salePrice" value="<?php echo $salePrice;  ?>" placeholder="write the sale price..">
                
 
                 <label for="currentPrice">Current Gold price:
                     <span class="text-danger">*</span>
                 </label>
                 <!-- <span class="text-danger"> <?php echo ($error_message) ? "This field is required!" : ""; ?> </span> -->
-                <input type="number" name="currentPrice" value="<?php echo $currentPrice; ?>" placeholder="write current gold price..">
+                <input type="text" name="currentPrice" value="<?php echo $currentPrice; ?>" placeholder="write current gold price..">
                
 
                 <button type="submit" name="submit">Calculate</button>
@@ -225,7 +224,7 @@
             <div class="reult-container">
                 <h2>Results:</h2>
                 <div class="line"></div>
-                <p>ရွှေအလေးချိန်: <strong name="weightInPae"><?php echo $weightInPae = number_format($weightInPae, 0);  ?></strong> ပဲ</p>
+                <p>ရွှေအလေးချိန်: <strong name="weightInPae"><?php echo $weightInPae = number_format($weightInPae, 2);  ?></strong> ပဲ</p>
                 <p>ရွှေတန်ဖိုး: <strong name="actualGoldPrice"><?php echo $actualGoldPrice = number_format($actualGoldPrice, 0); ?></strong> ကျပ်</p>
                 <p>လက်ခ: <strong name="serviceCharges"><?php echo $serviceCharges = number_format($serviceCharges, 0);  ?></strong> ကျပ်</p>
             </div>
